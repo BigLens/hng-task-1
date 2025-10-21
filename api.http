@@ -1,0 +1,160 @@
+### Test POST /strings - Success
+POST http://localhost:3000/strings
+Content-Type: application/json
+
+{
+  "value": "string to analyze"
+}
+
+###
+
+### Test POST /strings - Palindrome
+POST http://localhost:3000/strings
+Content-Type: application/json
+
+{
+  "value": "racecaro"
+}
+
+###
+
+### Test POST /strings - 409 Conflict (duplicate)
+POST http://localhost:3000/strings
+Content-Type: application/json
+
+{
+  "value": "string to analyze"
+}
+
+###
+
+### Test POST /strings - 400 Missing value field
+POST http://localhost:3000/strings
+Content-Type: application/json
+
+{
+  "name": "test"
+}
+
+###
+
+### Test POST /strings - 422 Invalid data type
+POST http://localhost:3000/strings
+Content-Type: application/json
+
+{
+  "value": 123
+}
+
+###
+
+### Test POST /strings - 400 Invalid request body
+POST http://localhost:3000/strings
+Content-Type: application/json
+
+###
+
+### Test GET /strings/{string_value} - Success
+GET http://localhost:3000/strings/raceam
+
+###
+
+### Test GET /strings/{string_value} - 404 Not Found
+GET http://localhost:3000/strings/race
+
+###
+
+### Test GET /strings - Get all (no filters)
+GET http://localhost:3000/strings
+
+###
+
+### Test GET /strings - Filter by palindrome
+GET http://localhost:3000/strings?is_palindrome=true
+
+###
+
+### Test GET /strings - Filter by min_length
+GET http://localhost:3000/strings?min_length=7
+
+###
+
+### Test GET /strings - Filter by max_length
+GET http://localhost:3000/strings?max_length=5
+
+###
+
+### Test GET /strings - Filter by word_count
+GET http://localhost:3000/strings?word_count=2
+
+###
+
+### Test GET /strings - Filter by contains_character
+GET http://localhost:3000/strings?contains_character=r
+
+###
+
+### Test GET /strings - Multiple filters
+GET http://localhost:3000/strings?is_palindrome=true&min_length=5&max_length=20&word_count=1&contains_character=a
+
+###
+
+### Test GET /strings - 400 Invalid boolean
+GET http://localhost:3000/strings?is_palindrome=invalid
+
+###
+
+### Test GET /strings - 400 Invalid min_length
+GET http://localhost:3000/strings?min_length=abc
+
+###
+
+### Test GET /strings - 400 Invalid contains_character (multiple chars)
+GET http://localhost:3000/strings?contains_character=abc
+
+###
+
+### Test Natural Language - all single word palindromic strings
+GET http://localhost:3000/strings/filter-by-natural-language?query=all single word palindromic strings
+
+###
+
+### Test Natural Language - strings longer than 10 characters
+GET http://localhost:3000/strings/filter-by-natural-language?query=strings longer than 10 characters
+
+###
+
+### Test Natural Language - palindromic strings that contain the first vowel
+GET http://localhost:3000/strings/filter-by-natural-language?query=palindromic strings that contain the first vowel
+
+###
+
+### Test Natural Language - strings containing the letter z
+GET http://localhost:3000/strings/filter-by-natural-language?query=strings containing the letter z
+
+###
+
+### Test Natural Language - 400 Unable to parse
+GET http://localhost:3000/strings/filter-by-natural-language?query=gibberish nonsense
+
+###
+
+### Test Natural Language - 422 Conflicting filters
+GET http://localhost:3000/strings/filter-by-natural-language?query=strings longer than 20 but shorter than 10
+
+###
+
+### Test DELETE /strings/{string_value} - 204 Success
+DELETE http://localhost:3000/strings/racecar
+
+###
+
+### Test DELETE /strings/{string_value} - 204 Success with spaces
+DELETE http://localhost:3000/strings/string%20to%20analyze
+
+###
+
+### Test DELETE /strings/{string_value} - 404 Not Found
+DELETE http://localhost:3000/strings/nonexistent
+
+###
